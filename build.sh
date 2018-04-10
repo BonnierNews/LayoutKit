@@ -12,12 +12,12 @@ rm -rf $DERIVED_DATA &&
 time xcodebuild clean test \
     -project LayoutKit.xcodeproj \
     -scheme LayoutKit-iOS \
-    -sdk iphonesimulator11.0 \
+    -sdk iphonesimulator11.2 \
     -derivedDataPath $DERIVED_DATA \
     -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.3.1' \
     -destination 'platform=iOS Simulator,name=iPhone 6 Plus,OS=10.3.1' \
-    -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0' \
-    -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=11.0' \
+    -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.2' \
+    -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=11.2' \
     OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
     | tee build.log \
     | xcpretty &&
@@ -39,9 +39,9 @@ rm -rf $DERIVED_DATA &&
 time xcodebuild clean test \
     -project LayoutKit.xcodeproj \
     -scheme LayoutKit-tvOS \
-    -sdk appletvsimulator11.0 \
+    -sdk appletvsimulator11.2 \
     -derivedDataPath $DERIVED_DATA \
-    -destination 'platform=tvOS Simulator,name=Apple TV 1080p,OS=11.0' \
+    -destination 'platform=tvOS Simulator,name=Apple TV 1080p,OS=11.2' \
     OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
     | tee build.log \
     | xcpretty &&
@@ -52,12 +52,12 @@ rm -rf $DERIVED_DATA &&
 time xcodebuild clean build \
     -project LayoutKit.xcodeproj \
     -scheme LayoutKitSampleApp \
-    -sdk iphonesimulator11.0 \
+    -sdk iphonesimulator11.2 \
     -derivedDataPath $DERIVED_DATA \
     -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.3.1' \
     -destination 'platform=iOS Simulator,name=iPhone 6 Plus,OS=10.3.1' \
-        -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0' \
-    -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=11.0' \
+    -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.2' \
+    -destination 'platform=iOS Simulator,name=iPhone 7 Plus,OS=11.2' \
     OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
     | tee ../build.log \
     | xcpretty &&
@@ -72,9 +72,9 @@ pod install &&
 time xcodebuild clean build \
     -workspace LayoutKit-iOS.xcworkspace \
     -scheme LayoutKit-iOS \
-    -sdk iphonesimulator11.0 \
+    -sdk iphonesimulator11.2 \
     -derivedDataPath $DERIVED_DATA \
-    -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0' \
+    -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.2' \
     OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
     | tee ../../../build.log \
     | xcpretty &&
@@ -103,9 +103,9 @@ pod install &&
 time xcodebuild clean build \
     -workspace LayoutKit-tvOS.xcworkspace \
     -scheme LayoutKit-tvOS \
-    -sdk appletvsimulator11.0 \
+    -sdk appletvsimulator11.2 \
     -derivedDataPath $DERIVED_DATA \
-    -destination 'platform=tvOS Simulator,name=Apple TV 1080p,OS=11.0' \
+    -destination 'platform=tvOS Simulator,name=Apple TV 1080p,OS=11.2' \
     OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
     | tee ../../../build.log \
     | xcpretty &&
