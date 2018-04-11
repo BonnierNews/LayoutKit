@@ -13,5 +13,13 @@ jobs:
           command: bundle install
 
       - run:
-          name: Build and run tests
-          command: sh build.sh /tmp/LayoutKit
+          name: Run tests
+          command: make test
+
+      - run:
+          name: Build sample app
+          command: make build
+
+      - run:
+          name: Integrate using CocoaPods
+          command: make integrate_cocoapods
