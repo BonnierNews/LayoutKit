@@ -9,6 +9,12 @@ jobs:
       - checkout
 
       - run:
+          name: pre-start simulator
+          command: >
+            xcrun instruments -w "iPhone 6 (10.3.1) [" || true
+            xcrun instruments -w "iPhone 7 (11.3) [" || true
+
+      - run:
           name: Install ruby dependencies
           command: bundle install
 
