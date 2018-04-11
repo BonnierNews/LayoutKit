@@ -26,30 +26,6 @@ time xcodebuild clean test \
     | xcpretty &&
 cat build.log | sh debug-time-function-bodies.sh &&
 
-echo "Run tests on macOS..." &&
-time xcodebuild clean test \
-    -project LayoutKit.xcodeproj \
-    -scheme LayoutKit-macOS \
-    -sdk macosx10.13 \
-    -derivedDataPath $DERIVED_DATA \
-    OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
-    | tee build.log \
-    | xcpretty &&
-cat build.log | sh debug-time-function-bodies.sh &&
-
-echo "Run tests on tvOS..." &&
-rm -rf $DERIVED_DATA &&
-time xcodebuild clean test \
-    -project LayoutKit.xcodeproj \
-    -scheme LayoutKit-tvOS \
-    -sdk appletvsimulator11.2 \
-    -derivedDataPath $DERIVED_DATA \
-    -destination 'platform=tvOS Simulator,name=Apple TV 4K (at 1080p),OS=11.2' \
-    OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
-    | tee build.log \
-    | xcpretty &&
-cat build.log | sh debug-time-function-bodies.sh &&
-
 echo "Building sample app..." &&
 rm -rf $DERIVED_DATA &&
 time xcodebuild clean build \
@@ -78,37 +54,6 @@ time xcodebuild clean build \
     -sdk iphonesimulator11.2 \
     -derivedDataPath $DERIVED_DATA \
     -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.2' \
-    OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
-    | tee ../../../build.log \
-    | xcpretty &&
-cd ../../.. &&
-cat build.log | sh debug-time-function-bodies.sh &&
-
-echo "Building a macOS empty project with cocoapods..." &&
-rm -rf $DERIVED_DATA &&
-cd Tests/cocoapods/macos &&
-pod install &&
-time xcodebuild clean build \
-    -workspace LayoutKit-macOS.xcworkspace \
-    -scheme LayoutKit-macOS \
-    -sdk macosx10.13 \
-    -derivedDataPath $DERIVED_DATA \
-    OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
-    | tee ../../../build.log \
-    | xcpretty &&
-cd ../../.. &&
-cat build.log | sh debug-time-function-bodies.sh &&
-
-echo "Building a tvOS empty project with cocoapods..." &&
-rm -rf $DERIVED_DATA &&
-cd Tests/cocoapods/tvos &&
-pod install &&
-time xcodebuild clean build \
-    -workspace LayoutKit-tvOS.xcworkspace \
-    -scheme LayoutKit-tvOS \
-    -sdk appletvsimulator11.2 \
-    -derivedDataPath $DERIVED_DATA \
-    -destination 'platform=tvOS Simulator,name=Apple TV 4K (at 1080p),OS=11.2' \
     OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
     | tee ../../../build.log \
     | xcpretty &&
