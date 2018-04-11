@@ -42,6 +42,7 @@ open class LabelLayout<Label: UILabel>: BaseLayout<Label>, ConfigurableLayout {
          alignment: Alignment = LabelLayoutDefaults.defaultAlignment,
          flexibility: Flexibility = LabelLayoutDefaults.defaultFlexibility,
          viewReuseId: String? = nil,
+         viewReuseGroup: String? = nil,
          viewClass: Label.Type? = nil,
          config: ((Label) -> Void)? = nil) {
 
@@ -49,7 +50,7 @@ open class LabelLayout<Label: UILabel>: BaseLayout<Label>, ConfigurableLayout {
         self.numberOfLines = numberOfLines
         self.font = font
         self.lineHeight = lineHeight ?? font.lineHeight
-        super.init(alignment: alignment, flexibility: flexibility, viewReuseId: viewReuseId, viewClass: viewClass ?? Label.self, config: config)
+        super.init(alignment: alignment, flexibility: flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, viewClass: viewClass ?? Label.self, config: config)
     }
 
     init(string: String,

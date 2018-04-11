@@ -47,10 +47,11 @@ open class BaseLayout<V: View> {
         self.config = config
     }
 
-    init(alignment: Alignment, flexibility: Flexibility, viewReuseId: String? = nil, viewClass: V.Type, config: ((V) -> Void)?) {
+    init(alignment: Alignment, flexibility: Flexibility, viewReuseId: String? = nil, viewReuseGroup: String? = nil, viewClass: V.Type, config: ((V) -> Void)?) {
         self.alignment = alignment
         self.flexibility = flexibility
         self.viewReuseId = viewReuseId
+        self.viewReuseGroup = viewReuseGroup
         self.viewClass = viewClass
         self.config = config
     }

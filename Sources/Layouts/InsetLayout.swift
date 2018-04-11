@@ -31,12 +31,13 @@ open class InsetLayout<V: View>: BaseLayout<V>, ConfigurableLayout {
     init(insets: EdgeInsets,
          alignment: Alignment = Alignment.fill,
          viewReuseId: String? = nil,
+         viewReuseGroup: String? = nil,
          sublayout: Layout,
          viewClass: V.Type?,
          config: ((V) -> Void)? = nil) {
         self.insets = insets
         self.sublayout = sublayout
-        super.init(alignment: alignment, flexibility: sublayout.flexibility, viewReuseId: viewReuseId, viewClass: viewClass ?? V.self, config: config)
+        super.init(alignment: alignment, flexibility: sublayout.flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, viewClass: viewClass ?? V.self, config: config)
     }
 
     public convenience init(inset: CGFloat,
