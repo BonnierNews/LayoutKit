@@ -1,6 +1,9 @@
 #!/bin/sh
 # Builds all targets and runs tests.
 
+alias pod='bundle exec pod'
+alias xcpretty='bundle exec xcpretty'
+
 # Defined default derived data location
 DERIVED_DATA=${1:-/tmp/LayoutKit}
 echo "Derived data location: $DERIVED_DATA";
