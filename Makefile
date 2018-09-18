@@ -9,7 +9,7 @@ build:
 	set -o pipefail && time xcodebuild clean build \
 		-project LayoutKit.xcodeproj \
 		-scheme LayoutKitSampleApp \
-		-sdk iphonesimulator11.2 \
+		-sdk iphonesimulator12.0 \
 		-derivedDataPath $(DERIVED_DATA) \
 		-destination 'platform=iOS Simulator,name=iPhone 6,OS=10.3.1' \
 		-destination 'platform=iOS Simulator,name=iPhone 6 Plus,OS=10.3.1' \
@@ -24,7 +24,7 @@ test:
 	set -o pipefail && time xcodebuild clean test \
 		-project LayoutKit.xcodeproj \
 		-scheme LayoutKit-iOS \
-		-sdk iphonesimulator11.2 \
+		-sdk iphonesimulator12.0 \
 		-derivedDataPath $(DERIVED_DATA) \
 		-destination 'platform=iOS Simulator,name=iPhone 6,OS=10.3.1' \
 		-destination 'platform=iOS Simulator,name=iPhone 6 Plus,OS=10.3.1' \
@@ -40,7 +40,7 @@ integrate_cocoapods:
 	set -o pipefail && time xcodebuild clean build \
 		-workspace Tests/cocoapods/ios/LayoutKit-iOS.xcworkspace \
 		-scheme LayoutKit-iOS \
-		-sdk iphonesimulator11.2 \
+		-sdk iphonesimulator12.0 \
 		-derivedDataPath $(DERIVED_DATA) \
 		-destination 'platform=iOS Simulator,name=iPhone 7,OS=11.2' \
 		OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies' \
