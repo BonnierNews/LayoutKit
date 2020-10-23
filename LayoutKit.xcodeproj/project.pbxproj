@@ -197,7 +197,6 @@
 		0BDDF95C1E25ACCE008B0A6F /* ReloadableViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDF95A1E25ACCE008B0A6F /* ReloadableViewTests.swift */; };
 		36B080492543046800134FAB /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B193BB61D887BCF00FCA22D /* CollectionExtension.swift */; };
 		36B080532543046800134FAB /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B193BB61D887BCF00FCA22D /* CollectionExtension.swift */; };
-		36B0805D2543046900134FAB /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B193BB61D887BCF00FCA22D /* CollectionExtension.swift */; };
 		36B080672543046B00134FAB /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B193BB61D887BCF00FCA22D /* CollectionExtension.swift */; };
 		37BEBEF5207C25BF002BD761 /* LOKAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BEBEF3207C23B6002BD761 /* LOKAnimation.swift */; };
 		37D9D58420BF82FD001A5CDD /* LOKLayoutBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 37D9D58320BF8270001A5CDD /* LOKLayoutBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1530,7 +1529,6 @@
 				0BCB76451D8724D00065E02A /* AxisFlexibility.swift in Sources */,
 				0BCB76321D8724C70065E02A /* CGSizeExtension.swift in Sources */,
 				0BCB763B1D8724CB0065E02A /* BaseLayout.swift in Sources */,
-				36B0805D2543046900134FAB /* CollectionExtension.swift in Sources */,
 				0BCB761E1D8724C10065E02A /* ConfigurableLayout.swift in Sources */,
 				0BCB761D1D8724C10065E02A /* Axis.swift in Sources */,
 				0BCB76491D8724D00065E02A /* ViewRecycler.swift in Sources */,
