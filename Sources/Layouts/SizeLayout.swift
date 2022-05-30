@@ -78,11 +78,14 @@ open class SizeLayout<V: View>: BaseLayout<V>, ConfigurableLayout {
                                                                        minHeight: minHeight,
                                                                        maxHeight: maxHeight)
         
-        if let identifier = identifier {
-            super.init(alignment: alignment, flexibility: flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, config: config, identifier: identifier)
-        } else {
-            super.init(alignment: alignment, flexibility: flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, config: config)
-        }
+        super.init(
+            alignment: alignment,
+            flexibility: flexibility,
+            viewReuseId: viewReuseId,
+            viewReuseGroup: viewReuseGroup,
+            config: config,
+            identifier: identifier
+        )
     }
 
     init(minWidth: CGFloat? = nil,
