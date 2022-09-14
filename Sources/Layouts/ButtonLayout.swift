@@ -46,6 +46,25 @@ open class ButtonLayout<Button: UIButton>: BaseLayout<Button>, ConfigurableLayou
         self.contentEdgeInsets = contentEdgeInsets ?? ButtonLayout.defaultContentEdgeInsets(for: type, image: image)
         super.init(alignment: alignment, flexibility: flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, config: config)
     }
+    
+    public init(type: ButtonLayoutType,
+                title: Text,
+                image: ButtonLayoutImage = .defaultImage,
+                font: UIFont? = nil,
+                contentEdgeInsets: UIEdgeInsets? = nil,
+                alignment: Alignment = ButtonLayoutDefaults.defaultAlignment,
+                flexibility: Flexibility = ButtonLayoutDefaults.defaultFlexibility,
+                viewReuseId: String? = nil,
+                viewReuseGroup: String? = nil,
+                config: ((Button) -> Void)? = nil) {
+
+        self.type = type
+        self.title = title
+        self.image = image
+        self.font = font
+        self.contentEdgeInsets = contentEdgeInsets ?? ButtonLayout.defaultContentEdgeInsets(for: type, image: image)
+        super.init(alignment: alignment, flexibility: flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, config: config)
+    }
 
     init(type: ButtonLayoutType,
          title: String,
