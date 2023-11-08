@@ -23,10 +23,11 @@ open class InsetLayout<V: View>: BaseLayout<V>, ConfigurableLayout {
                 viewReuseId: String? = nil,
                 viewReuseGroup: String? = nil,
                 sublayout: Layout,
-                config: ((V) -> Void)? = nil) {
+                config: ((V) -> Void)? = nil,
+                identifier: String? = nil) {
         self.insets = insets
         self.sublayout = sublayout
-        super.init(alignment: alignment, flexibility: flexibility ?? sublayout.flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, config: config)
+        super.init(alignment: alignment, flexibility: flexibility ?? sublayout.flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, config: config, identifier: identifier)
     }
 
     init(insets: EdgeInsets,
@@ -36,11 +37,12 @@ open class InsetLayout<V: View>: BaseLayout<V>, ConfigurableLayout {
          viewReuseGroup: String? = nil,
          sublayout: Layout,
          viewClass: V.Type?,
-         config: ((V) -> Void)? = nil) {
+         config: ((V) -> Void)? = nil,
+         identifier: String? = nil) {
         self.insets = insets
         self.sublayout = sublayout
 
-        super.init(alignment: alignment, flexibility: flexibility ?? sublayout.flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, viewClass: viewClass ?? V.self, config: config)
+        super.init(alignment: alignment, flexibility: flexibility ?? sublayout.flexibility, viewReuseId: viewReuseId, viewReuseGroup: viewReuseGroup, viewClass: viewClass ?? V.self, config: config, identifier: identifier)
     }
 
     public convenience init(inset: CGFloat,
