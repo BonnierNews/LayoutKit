@@ -267,6 +267,10 @@ open class ReloadableViewLayoutAdapter: NSObject, ReloadableViewUpdateManagerDel
 
             if let operation = operation, !operation.isCancelled {
                 OperationQueue.main.addOperation(mainOperation)
+            } else {
+                OperationQueue.main.addOperation(BlockOperation(block: {
+                    completion([])
+                }))
             }
         }
 
