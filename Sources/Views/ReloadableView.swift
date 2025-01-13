@@ -54,10 +54,10 @@ extension UICollectionView: ReloadableView {
 
     @objc
     open func reloadDataSynchronously() {
-        reloadData()
-
-        // Force a layout so that it is safe to call insert after this.
-        layoutIfNeeded()
+        DispatchQueue.main.async {
+            self.reloadData()
+            self.layoutIfNeeded() // Ensures layout is updated after reload
+        }
     }
 
     @objc
@@ -69,38 +69,43 @@ extension UICollectionView: ReloadableView {
 
     @objc
     open func perform(batchUpdates: BatchUpdates, completion: (() -> Void)?) {
-        performBatchUpdates({
-            if batchUpdates.insertItems.count > 0 {
-                self.insertItems(at: batchUpdates.insertItems)
-            }
-            if batchUpdates.deleteItems.count > 0 {
-                self.deleteItems(at: batchUpdates.deleteItems)
-            }
-            if batchUpdates.reloadItems.count > 0 {
-                self.reloadItems(at: batchUpdates.reloadItems)
-            }
-            for move in batchUpdates.moveItems {
-                self.moveItem(at: move.from, to: move.to)
-            }
-
-            if batchUpdates.insertSections.count > 0 {
-                self.insertSections(batchUpdates.insertSections)
-            }
-            if batchUpdates.deleteSections.count > 0 {
-                self.deleteSections(batchUpdates.deleteSections)
-            }
-            if batchUpdates.reloadSections.count > 0 {
-                self.reloadSections(batchUpdates.reloadSections)
-            }
-            for move in batchUpdates.moveSections {
-                self.moveSection(move.from, toSection: move.to)
-            }
-        }, completion: { _ in
-            completion?()
-        })
+        DispatchQueue.main.async {
+            self.performBatchUpdates({
+                if batchUpdates.insertItems.count > 0 {
+                    self.insertItems(at: batchUpdates.insertItems)
+                }
+                if batchUpdates.deleteItems.count > 0 {
+                    self.deleteItems(at: batchUpdates.deleteItems)
+                }
+                if batchUpdates.reloadItems.count > 0 {
+                    self.reloadItems(at: batchUpdates.reloadItems)
+                }
+                for move in batchUpdates.moveItems {
+                    self.moveItem(at: move.from, to: move.to)
+                }
+                
+                if batchUpdates.insertSections.count > 0 {
+                    self.insertSections(batchUpdates.insertSections)
+                }
+                if batchUpdates.deleteSections.count > 0 {
+                    self.deleteSections(batchUpdates.deleteSections)
+                }
+                if batchUpdates.reloadSections.count > 0 {
+                    self.reloadSections(batchUpdates.reloadSections)
+                }
+                for move in batchUpdates.moveSections {
+                    self.moveSection(move.from, toSection: move.to)
+                }
+            }, completion: { _ in
+                completion?()
+            })
+        }
     }
-
+    
     open func contentView(forIndexPath indexPath: IndexPath) -> UIView? {
+        DispatchQueue.main.async {
+            self.layoutIfNeeded() // Ensure the layout is up-to-date before querying
+        }
         return self.cellForItem(at: indexPath)?.contentView
     }
 }
@@ -112,53 +117,61 @@ extension UITableView: ReloadableView {
 
     @objc
     open func reloadDataSynchronously() {
-        reloadData()
+        DispatchQueue.main.async {
+            self.reloadData()
+            self.layoutIfNeeded() // Ensures layout is updated after reload
+        }
     }
-
+    
     @objc
     open func registerViews(withReuseIdentifier reuseIdentifier: String) {
         register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: reuseIdentifier)
     }
-
+    
     @objc
     open func perform(batchUpdates: BatchUpdates, completion: (() -> Void)?) {
-        beginUpdates()
+        DispatchQueue.main.async {
+            self.beginUpdates()
+            
+            // Update items.
+            if batchUpdates.insertItems.count > 0 {
+                self.insertRows(at: batchUpdates.insertItems, with: .automatic)
+            }
+            if batchUpdates.deleteItems.count > 0 {
+                self.deleteRows(at: batchUpdates.deleteItems, with: .automatic)
+            }
+            if batchUpdates.reloadItems.count > 0 {
+                self.reloadRows(at: batchUpdates.reloadItems, with: .automatic)
+            }
+            for move in batchUpdates.moveItems {
+                self.moveRow(at: move.from, to: move.to)
+            }
 
-        // Update items.
-        if batchUpdates.insertItems.count > 0 {
-            insertRows(at: batchUpdates.insertItems, with: .automatic)
+            // Update sections.
+            if batchUpdates.insertSections.count > 0 {
+                self.insertSections(batchUpdates.insertSections, with: .automatic)
+            }
+            if batchUpdates.deleteSections.count > 0 {
+                self.deleteSections(batchUpdates.deleteSections, with: .automatic)
+            }
+            if batchUpdates.reloadSections.count > 0 {
+                self.reloadSections(batchUpdates.reloadSections, with: .automatic)
+            }
+            for move in batchUpdates.moveSections {
+                self.moveSection(move.from, toSection: move.to)
+            }
+            
+            self.endUpdates()
+            
+            completion?()
         }
-        if batchUpdates.deleteItems.count > 0 {
-            deleteRows(at: batchUpdates.deleteItems, with: .automatic)
-        }
-        if batchUpdates.reloadItems.count > 0 {
-            reloadRows(at: batchUpdates.reloadItems, with: .automatic)
-        }
-        for move in batchUpdates.moveItems {
-            moveRow(at: move.from, to: move.to)
-        }
-
-        // Update sections.
-        if batchUpdates.insertSections.count > 0 {
-            insertSections(batchUpdates.insertSections, with: .automatic)
-        }
-        if batchUpdates.deleteSections.count > 0 {
-            deleteSections(batchUpdates.deleteSections, with: .automatic)
-        }
-        if batchUpdates.reloadSections.count > 0 {
-            reloadSections(batchUpdates.reloadSections, with: .automatic)
-        }
-        for move in batchUpdates.moveSections {
-            moveSection(move.from, toSection: move.to)
-        }
-
-        endUpdates()
-
-        completion?()
     }
-
+    
     open func contentView(forIndexPath indexPath: IndexPath) -> UIView? {
+        DispatchQueue.main.async {
+            self.layoutIfNeeded() // Ensure the layout is up-to-date before querying
+        }
         return self.cellForRow(at: indexPath)?.contentView
     }
 }

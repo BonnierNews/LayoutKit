@@ -44,18 +44,28 @@ extension ReloadableViewLayoutAdapter: UICollectionViewDataSource {
 
     /// - Warning: Subclasses that override this method must call super
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let arrangement = currentArrangement[safe: indexPath.section]?.items[safe: indexPath.item]
+    
+        // Dequeue cell with unique reuse identifier
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        UIView.performWithoutAnimation {
-            arrangement?.makeViews(in: cell.contentView)
+    
+        // Reset cell state
+        cell.isHidden = false
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+    
+        // Configure cell content
+        if let arrangement = currentArrangement[safe: indexPath.section]?.items[safe: indexPath.item] {
+            UIView.performWithoutAnimation {
+                arrangement.makeViews(in: cell.contentView)
+            }
         }
+    
         return cell
     }
 
     /// - Warning: Subclasses that override this method must call super
     open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifier, for: indexPath)
-        let arrangement: LayoutArrangement?
+        var arrangement: LayoutArrangement?
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             arrangement = currentArrangement[indexPath.section].header
@@ -64,6 +74,16 @@ extension ReloadableViewLayoutAdapter: UICollectionViewDataSource {
         default:
             arrangement = nil
             assertionFailure("unknown supplementary view kind \(kind)")
+        }
+
+        // Reset supplementary view state
+        view.subviews.forEach { $0.removeFromSuperview() }
+
+        // Configure supplementary view content
+        if kind == UICollectionView.elementKindSectionHeader {
+            arrangement = currentArrangement[indexPath.section].header
+        } else {
+            arrangement = currentArrangement[indexPath.section].footer
         }
         UIView.performWithoutAnimation {
             arrangement?.makeViews(in: view)
