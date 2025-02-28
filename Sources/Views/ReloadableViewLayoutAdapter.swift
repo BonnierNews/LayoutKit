@@ -157,11 +157,13 @@ open class ReloadableViewLayoutAdapter: NSObject, ReloadableViewUpdateManagerDel
                 header: LayoutArrangement?,
                 items: [LayoutArrangement],
                 footer: LayoutArrangement?,
+                contentType: String,
+                swiftUiData: Any,
                 pendingArrangement: [Section<[LayoutArrangement]>],
                 insertedIndexPaths: [IndexPath],
                 updateManager: ReloadableViewUpdateManager) {
 
-                let partialSection = Section(header: header, items: items, footer: footer)
+                let partialSection = Section(header: header, items: items, footer: footer, contentType: contentType, swiftUiData: swiftUiData)
                 var partialArrangement = pendingArrangement
                 partialArrangement.append(partialSection)
                 updateManager.apply(partialArrangement: partialArrangement, insertedIndexPaths: insertedIndexPaths)
@@ -176,6 +178,8 @@ open class ReloadableViewLayoutAdapter: NSObject, ReloadableViewUpdateManagerDel
                 let header = sectionLayout.header.map(layoutFunc)
                 let footer = sectionLayout.footer.map(layoutFunc)
                 var items = [LayoutArrangement]()
+                let contentType = sectionLayout.contentType
+                let swiftUiData = sectionLayout.swiftUiData
                 var insertedIndexPaths = [IndexPath]()
 
                 for (itemIndex, itemLayout) in sectionLayout.items.enumerated() {
@@ -189,16 +193,16 @@ open class ReloadableViewLayoutAdapter: NSObject, ReloadableViewUpdateManagerDel
                     if (itemIndex <= ReloadableViewLayoutAdapter.incrementalUpdateChunkingThreshold
                         || itemIndex % ReloadableViewLayoutAdapter.incrementalUpdateChunkSize == 0)
                     {
-                        applyPartialArrangement(header: header, items: items, footer: footer, pendingArrangement: pendingArrangement, insertedIndexPaths: insertedIndexPaths, updateManager: updateManager)
+                        applyPartialArrangement(header: header, items: items, footer: footer, contentType: contentType, swiftUiData: swiftUiData, pendingArrangement: pendingArrangement, insertedIndexPaths: insertedIndexPaths, updateManager: updateManager)
                         insertedIndexPaths.removeAll()
                     }
                 }
                 
                 if insertedIndexPaths.isEmpty == false {
-                    applyPartialArrangement(header: header, items: items, footer: footer, pendingArrangement: pendingArrangement, insertedIndexPaths: insertedIndexPaths, updateManager: updateManager)
+                    applyPartialArrangement(header: header, items: items, footer: footer, contentType: contentType, swiftUiData: swiftUiData, pendingArrangement: pendingArrangement, insertedIndexPaths: insertedIndexPaths, updateManager: updateManager)
                 }
 
-                let pendingSection = Section(header: header, items: items, footer: footer)
+                let pendingSection = Section(header: header, items: items, footer: footer, contentType: contentType, swiftUiData: swiftUiData)
                 pendingArrangement.append(pendingSection)
             }
             updateManager.apply(finalArrangement: pendingArrangement, batchUpdates: batchUpdates, completion: { [weak self] in
@@ -286,17 +290,21 @@ public struct Section<C: Collection> {
     public let header: T?
     public let items: C
     public let footer: T?
+    public let contentType: String
+    public var swiftUiData: Any?
 
-    public init(header: T? = nil, items: C, footer: T? = nil) {
+    public init(header: T? = nil, items: C, footer: T? = nil, contentType: String = "default", swiftUiData: Any? = nil) {
         self.header = header
         self.items = items
         self.footer = footer
+        self.contentType = contentType
+        self.swiftUiData = swiftUiData
     }
 
     public func map<U>(_ mapper: (T) -> U) -> Section<[U]> {
         let header = self.header.map(mapper)
         let items = self.items.map(mapper)
         let footer = self.footer.map(mapper)
-        return Section<[U]>(header: header, items: items, footer: footer)
+        return Section<[U]>(header: header, items: items, footer: footer, contentType: self.contentType, swiftUiData: self.swiftUiData)
     }
 }
