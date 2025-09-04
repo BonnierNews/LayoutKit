@@ -12,6 +12,7 @@
  This layout does not require a view at runtime unless a configuration block has been provided.
  */
 import Foundation
+import UIKit
 
 open class BaseLayout<V: View> {
 
