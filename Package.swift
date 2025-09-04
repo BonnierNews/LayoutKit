@@ -17,16 +17,10 @@ let package = Package(
             exclude: [
                 "ObjCSupport",
                 "ObjCSupport/Builders/LOKButtonLayoutBuilder.h",
-                "ObjCSupport/*",
                 "LayoutKit.h",
                 "LayoutKitObjC.h",
                 "Info.plist"
             ]
-        ),
-        .testTarget(
-            name: "LayoutKitTests",
-            dependencies: ["LayoutKit"],
-            path: "LayoutKitTests"
         )
     ]
 )
