@@ -20,6 +20,9 @@ let package = Package(
                 "LayoutKitObjC.h",
                 "AppKitSupport.swift",
                 "Info.plist"
+            ],
+            linkerSettings: [
+                .linkedFramework("Foundation")
             ]
         )
     ]
