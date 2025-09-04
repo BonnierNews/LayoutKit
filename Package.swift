@@ -14,36 +14,13 @@ let package = Package(
         )
     ],
     targets: [
-        // ObjC-del
+        // ObjC-delen
         .target(
             name: "LayoutKitObjC",
-            path: "Sources",
-            sources: [
-                "ObjCSupport" // här ligger .m-filerna
-            ],
-            publicHeadersPath: ".", // eftersom LayoutKit.h / LayoutKitObjC.h ligger i Sources/
-            exclude: [
-                "Internal",
-                "Layouts",
-                "Math",
-                "Views",
-                "Alignment.swift",
-                "Animation.swift",
-                "AppKitSupport.swift",
-                "Axis.swift",
-                "ConfigurableLayout.swift",
-                "Flexibility.swift",
-                "Layout.swift",
-                "LayoutArrangement.swift",
-                "LayoutMeasurement.swift",
-                "Text.swift",
-                "UIKitSupport.swift",
-                "ViewRecycler.swift",
-                "ViewRecyclerViewStorage.swift",
-                "Info.plist"
-            ]
+            path: "Sources/ObjCSupport",
+            publicHeadersPath: "."
         ),
-        // Swift-del
+        // Swift-delen
         .target(
             name: "LayoutKit",
             dependencies: ["LayoutKitObjC"],
@@ -53,28 +30,8 @@ let package = Package(
                 "LayoutKit.h",
                 "LayoutKitObjC.h",
                 "Info.plist"
-            ],
-            sources: [
-                "Internal",
-                "Layouts",
-                "Math",
-                "Views",
-                "Alignment.swift",
-                "Animation.swift",
-                "AppKitSupport.swift",
-                "Axis.swift",
-                "ConfigurableLayout.swift",
-                "Flexibility.swift",
-                "Layout.swift",
-                "LayoutArrangement.swift",
-                "LayoutMeasurement.swift",
-                "Text.swift",
-                "UIKitSupport.swift",
-                "ViewRecycler.swift",
-                "ViewRecyclerViewStorage.swift"
             ]
         ),
-        // Tester
         .testTarget(
             name: "LayoutKitTests",
             dependencies: ["LayoutKit"],
