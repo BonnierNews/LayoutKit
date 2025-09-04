@@ -8,22 +8,49 @@ let package = Package(
         .tvOS(.v11)
     ],
     products: [
-        .library(
-            name: "LayoutKit",
-            targets: ["LayoutKit"]
-        )
+        .library(name: "LayoutKit", targets: ["LayoutKit"])
     ],
     targets: [
-        // ObjC-delen
+        // ObjC-only target
         .target(
             name: "LayoutKitObjC",
             path: "Sources/ObjCSupport",
-            publicHeadersPath: "."
+            sources: ["Builders"],
+            publicHeadersPath: "Builders"
         ),
-        // Swift-delen
+        // Swift parts of ObjCSupport
+        .target(
+            name: "LayoutKitObjCSwift",
+            dependencies: ["LayoutKitObjC"],
+            path: "Sources/ObjCSupport",
+            sources: [
+                "Internal/ReverseWrappedLayout.swift",
+                "Internal/WrappedLayout.swift",
+                "LOKAlignment.swift",
+                "LOKAnimation.swift",
+                "LOKBaseLayout.swift",
+                "LOKBatchUpdates.swift",
+                "LOKButtonLayout.swift",
+                "LOKButtonLayoutType.swift",
+                "LOKFlexibility.swift",
+                "LOKInsetLayout.swift",
+                "LOKLabelLayout.swift",
+                "LOKLayout.swift",
+                "LOKLayoutArrangement.swift",
+                "LOKLayoutArrangementSection.swift",
+                "LOKLayoutMeasurement.swift",
+                "LOKLayoutSection.swift",
+                "LOKOverlayLayout.swift",
+                "LOKReloadableViewLayoutAdapter.swift",
+                "LOKSizeLayout.swift",
+                "LOKStackLayout.swift",
+                "LOKTextViewLayout.swift"
+            ]
+        ),
+        // Main LayoutKit Swift code
         .target(
             name: "LayoutKit",
-            dependencies: ["LayoutKitObjC"],
+            dependencies: ["LayoutKitObjCSwift"],
             path: "Sources",
             exclude: [
                 "ObjCSupport",
@@ -35,7 +62,7 @@ let package = Package(
         .testTarget(
             name: "LayoutKitTests",
             dependencies: ["LayoutKit"],
-            path: "Tests"
+            path: "LayoutKitTests"
         )
     ]
 )
