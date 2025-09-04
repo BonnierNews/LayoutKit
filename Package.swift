@@ -22,7 +22,8 @@ let package = Package(
                 "Info.plist"
             ],
             linkerSettings: [
-                .linkedFramework("Foundation")
+                .linkedFramework("Foundation"),
+                .linkedFramework("UIKit")
             ]
         )
     ]
