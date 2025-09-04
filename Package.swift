@@ -50,7 +50,6 @@ let package = Package(
         // Main LayoutKit Swift code
         .target(
             name: "LayoutKit",
-            dependencies: ["LayoutKitObjCSwift"],
             path: "Sources",
             exclude: [
                 "ObjCSupport",
