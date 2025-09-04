@@ -16,9 +16,9 @@ let package = Package(
             path: "Sources",
             exclude: [
                 "ObjCSupport",
-                "ObjCSupport/Builders/LOKButtonLayoutBuilder.h",
                 "LayoutKit.h",
                 "LayoutKitObjC.h",
+                "AppKitSupport.swift",
                 "Info.plist"
             ]
         )
