@@ -11,6 +11,9 @@
  A base class for layouts.
  This layout does not require a view at runtime unless a configuration block has been provided.
  */
+import Foundation
+import UIKit
+
 open class BaseLayout<V: View> {
 
     /// The layout's alignment inside of the rect that it is assigned during arrangement.
