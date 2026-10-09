@@ -16,12 +16,24 @@ public typealias UserInterfaceLayoutDirection = UIUserInterfaceLayoutDirection
 
 extension UIView {
 
+    /// Converts `rect` from this view's coordinate space to its window's coordinate space.
+    ///
+    /// The conversion stops at the window (`to: nil`) on purpose. It used to go through
+    /// `UIScreen.main.fixedCoordinateSpace`, which breaks on iPadOS 27: a window that is not
+    /// full screen (resized at runtime, or launched inside a Stage Manager window) gets a window
+    /// scene whose `screen` is not `UIScreen.main`, and converting between the two unrelated
+    /// screens returns an infinite rect (`(inf, inf, 0, 0)`).
+    /// Assigning that as a frame throws `CALayerInvalidGeometry`
+    /// (see `LayoutArrangement.addSubview(_:maintainCoordinates:)`). `UIScreen.main` has also
+    /// been deprecated since iOS 16. Views reparented by a `LayoutArrangement` always share a
+    /// window, so the window is a sufficient common ancestor.
     func convertToAbsoluteCoordinates(_ rect: CGRect) -> CGRect {
-        return convert(rect, to: UIScreen.main.fixedCoordinateSpace)
+        return convert(rect, to: nil)
     }
 
+    /// Inverse of `convertToAbsoluteCoordinates(_:)`.
     func convertFromAbsoluteCoordinates(_ rect: CGRect) -> CGRect {
-        return convert(rect, from: UIScreen.main.fixedCoordinateSpace)
+        return convert(rect, from: nil)
     }
 
     /// Expose API that is identical to NSView.

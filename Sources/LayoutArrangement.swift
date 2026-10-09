@@ -178,9 +178,15 @@ extension View {
         }
 
         if maintainCoordinates {
-            let frame = view.convertToAbsoluteCoordinates(view.frame)
+            let absoluteFrame = view.convertToAbsoluteCoordinates(view.frame)
             addSubview(view)
-            view.frame = view.convertFromAbsoluteCoordinates(frame)
+            let maintainedFrame = view.convertFromAbsoluteCoordinates(absoluteFrame)
+            // Assigning a frame with NaN or infinite components raises CALayerInvalidGeometry.
+            // If the coordinate conversion produced one, keep the view's current frame instead;
+            // the arrangement's real frame is applied by `Animation.apply()` anyway.
+            if maintainedFrame.hasFiniteComponents {
+                view.frame = maintainedFrame
+            }
         } else {
             addSubview(view)
         }
@@ -198,3 +204,10 @@ extension View {
     }
 }
 
+extension CGRect {
+
+    /// `true` when no component is NaN or infinite, i.e. the rect is safe to assign to a frame.
+    fileprivate var hasFiniteComponents: Bool {
+        return origin.x.isFinite && origin.y.isFinite && size.width.isFinite && size.height.isFinite
+    }
+}
